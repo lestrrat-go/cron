@@ -1,7 +1,7 @@
 # go-cron - Dispatch jobs cron-style
 
 [![Build Status](https://travis-ci.org/lestrrat/go-cron.svg?branch=master)](https://travis-ci.org/lestrrat/go-cron)
-[![GoDoc](http://godoc.org/github.com/lestrrat/cron?status.png)](http://godoc.org/github.com/lestrrat/cron)
+[![GoDoc](http://godoc.org/github.com/lestrrat/go-cron?status.png)](http://godoc.org/github.com/lestrrat/go-cron)
 
 # SYNOPSIS
 
