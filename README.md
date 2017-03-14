@@ -1,6 +1,7 @@
-# go-cron
+# go-cron - Dispatch jobs cron-style
 
-Dispatch jobs cron-style
+[![Build Status](https://travis-ci.org/lestrrat/go-cron.svg?branch=master)](https://travis-ci.org/lestrrat/go-cron)
+[![GoDoc](http://godoc.org/github.com/lestrrat/cron?status.png)](http://godoc.org/github.com/lestrrat/cron)
 
 # SYNOPSIS
 
@@ -25,12 +26,25 @@ func Example() {
   ctx, cancel := context.WithCancel(context.Background())
   defer cancel()
 
+  // Start the dispatcher (very important: otherwise no jobs will be
+  // dispatched, ever)
   go tab.Run(ctx)
 
   // Run until we receive a signal
   <-sigCh
 }
 ```
+
+# DESCRIPTION
+
+This package is a fork of [github.com/robfig/cron](https://github.com/robfig/cron). While it's a fork, the inner workings have been modified heavily. The motivation for doing this is just to modify/simplify it enough so that the author can debug it easily by himself.
+
+Notable differences from `github.com/robfig/cron`:
+
+* Uses `context.Context` to control dispatcher loop.
+* Uses `WithXXX` style optional parameters to control initilization.
+* Uses locks instead of channels to avoid complexity in Add/Remove.
+* Hides most of the structs behind interfaces, as they should not be modified by the user in most cases.
 
 # ACKNOWLEGEMENTS
 
