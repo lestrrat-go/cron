@@ -15,23 +15,23 @@ import (
 type ParseOption int
 
 const (
-	Second      ParseOption = 1 << iota // Seconds field, default 0
-	Minute                              // Minutes field, default 0
-	Hour                                // Hours field, default 0
-	Dom                                 // Day of month field, default *
-	Month                               // Month field, default *
-	Dow                                 // Day of week field, default *
-	DowOptional                         // Optional day of week field, default *
-	Descriptor                          // Allow descriptors such as @monthly, @weekly, etc.
+	ParseSecond      ParseOption = 1 << iota // Seconds field, default 0
+	ParseMinute                              // Minutes field, default 0
+	ParseHour                                // Hours field, default 0
+	ParseDom                                 // Day of month field, default *
+	ParseMonth                               // Month field, default *
+	ParseDow                                 // Day of week field, default *
+	ParseDowOptional                         // Optional day of week field, default *
+	ParseDescriptor                          // Allow descriptors such as @monthly, @weekly, etc.
 )
 
 var places = []ParseOption{
-	Second,
-	Minute,
-	Hour,
-	Dom,
-	Month,
-	Dow,
+	ParseSecond,
+	ParseMinute,
+	ParseHour,
+	ParseDom,
+	ParseMonth,
+	ParseDow,
 }
 
 var defaults = []string{
@@ -59,8 +59,8 @@ var defaults = []string{
 //
 func NewParser(options ParseOption) *Parser {
 	optionals := 0
-	if options&DowOptional > 0 {
-		options |= Dow
+	if options&ParseDowOptional > 0 {
+		options |= ParseDow
 		optionals++
 	}
 	return &Parser{options, optionals}
@@ -73,7 +73,7 @@ func (p Parser) Parse(spec string) (Schedule, error) {
 	if len(spec) == 0 {
 		return nil, fmt.Errorf("Empty spec string")
 	}
-	if spec[0] == '@' && p.options&Descriptor > 0 {
+	if spec[0] == '@' && p.options&ParseDescriptor > 0 {
 		return parseDescriptor(spec)
 	}
 
@@ -150,7 +150,7 @@ func expandFields(fields []string, options ParseOption) []string {
 }
 
 var StandardParser = NewParser(
-	Minute | Hour | Dom | Month | Dow | Descriptor,
+	ParseMinute | ParseHour | ParseDom | ParseMonth | ParseDow | ParseDescriptor,
 )
 
 // ParseStandard returns a new crontab schedule representing the given standardSpec
@@ -166,7 +166,7 @@ func ParseStandard(standardSpec string) (Schedule, error) {
 }
 
 var DefaultParser = NewParser(
-	Second | Minute | Hour | Dom | Month | DowOptional | Descriptor,
+	ParseSecond | ParseMinute | ParseHour | ParseDom | ParseMonth | ParseDowOptional | ParseDescriptor,
 )
 
 // Parse returns a new crontab schedule representing the given spec.
