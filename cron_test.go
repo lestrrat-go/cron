@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/lestrrat/go-cron"
+	"github.com/lestrrat-go/cron"
 	"github.com/stretchr/testify/assert"
 )
 
